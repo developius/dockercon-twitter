@@ -22,7 +22,10 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
 	# Convert the 0-1 range into a value in the right range.
 	output = rightMin + (valueScaled * rightSpan)
 
-	# Perform range control (there's potential for value to be more/less than rightMin/rightMax)
+	# stop servos clashing
+	if output > 146: return 146
+	if output < 34: return 34
+
 	if output > rightMax: return rightMax
 	elif output < rightMin: return rightMin
 	else: return output
@@ -48,13 +51,8 @@ while True:
 		#print('[{}] {} - "{}"'.format(tweet.created_at.encode('utf-8'), tweet.user.name.encode('utf-8'), tweet.text.encode('utf-8')))
 		if tweet.user.id not in tweeters: tweeters.append(tweet.user.id)
 
-	left_angle = round(translate(len(tweeters), 0, 100, 0, 180))
-	if left_angle > 146: left_angle = 146
-	right_angle = round(translate(len(new_tweets), 0, 100, 0, 180))
-	if left_angle < 34: left_angle = 34
-
-	left.angle = left_angle
-	right.angle = right_angle
+	left.angle = round(translate(len(tweeters), 0, 100, 0, 180))
+	right.angle = round(translate(len(new_tweets), 0, 100, 0, 180))
 	print('{} unique tweeters ({})º, {} #DockerCon tweets ({})º'.format(len(tweeters), left.angle, len(new_tweets), right.angle))
 
 	time.sleep(0.4) # allow servos to move into position
