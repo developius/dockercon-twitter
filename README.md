@@ -3,7 +3,7 @@ A Raspberry Pi based monitor which uses the Twitter search API to find tweets & 
 
 ## Running
 
-`docker run -ti --rm --privileged --device /dev/gpiomem:/dev/gpiomem --env-file=./.env --restart=failure developius/dockercon-tweet-monitor`
+`docker run -ti --rm --privileged --device /dev/gpiomem:/dev/gpiomem --env-file=./.env --restart=failure developius/dockercon-tweet-monitor:latest`
 
 ## Building
 
