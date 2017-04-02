@@ -48,8 +48,13 @@ while True:
 		#print('[{}] {} - "{}"'.format(tweet.created_at.encode('utf-8'), tweet.user.name.encode('utf-8'), tweet.text.encode('utf-8')))
 		if tweet.user.id not in tweeters: tweeters.append(tweet.user.id)
 
-	left.angle = round(translate(len(tweeters), 0, 100, 0, 180))
-	right.angle = round(translate(len(new_tweets), 0, 100, 0, 180))
+	left_angle = round(translate(len(tweeters), 0, 100, 0, 180))
+	if left_angle > 146: left_angle = 146
+	right_angle = round(translate(len(new_tweets), 0, 100, 0, 180))
+	if left_angle < 34: left_angle = 34
+
+	left.angle = left_angle
+	right.angle = right_angle
 	print('{} unique tweeters ({})º, {} #DockerCon tweets ({})º'.format(len(tweeters), left.angle, len(new_tweets), right.angle))
 
 	time.sleep(0.4) # allow servos to move into position
