@@ -5,10 +5,11 @@ from datetime import datetime, timedelta
 from gpiozero import AngularServo
 
 left = AngularServo(18, min_angle = 180, max_angle = 0, min_pulse_width=0.7/1000, max_pulse_width=2.3/1000)
-right = AngularServo(12, min_angle = 180, max_angle = 0, min_pulse_width=0.7/1000, max_pulse_width=2.3/1000)
+right = AngularServo(15, min_angle = 180, max_angle = 0, min_pulse_width=0.7/1000, max_pulse_width=2.3/1000)
 
-left.max()
-right.max()
+left.mid()
+right.mid()
+time.sleep(10)
 
 # adapted from http://stackoverflow.com/a/1969274/2822450
 def translate(value, leftMin, leftMax, rightMin, rightMax):
@@ -23,8 +24,8 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
 	output = rightMin + (valueScaled * rightSpan)
 
 	# stop servos clashing
-	if output > 146: return 146
-	if output < 34: return 34
+	if output > 180: return 180
+	if output < 45: return 45
 
 	if output > rightMax: return rightMax
 	elif output < rightMin: return rightMin
@@ -51,8 +52,8 @@ while True:
 		#print('[{}] {} - "{}"'.format(tweet.created_at.encode('utf-8'), tweet.user.name.encode('utf-8'), tweet.text.encode('utf-8')))
 		if tweet.user.id not in tweeters: tweeters.append(tweet.user.id)
 
-	left.angle = round(translate(len(tweeters), 0, 100, 0, 180))
-	right.angle = round(translate(len(new_tweets), 0, 100, 0, 180))
+	left.angle = round(translate(len(tweeters), 0, 20, 0, 180))
+	right.angle = round(translate(len(new_tweets), 0, 20, 0, 180))
 	print('{} unique tweeters ({})º, {} #DockerCon tweets ({})º'.format(len(tweeters), left.angle, len(new_tweets), right.angle))
 
 	time.sleep(0.4) # allow servos to move into position
