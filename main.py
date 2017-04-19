@@ -42,7 +42,7 @@ api = twitter.Api(
 )
 
 while True:
-	tweets = api.GetSearch(raw_query='q=%23dockercon&result_type=recent')
+	tweets = api.GetSearch(raw_query='q=%23dockercon&result_type=recent&count=200')
 	new_tweets = []
 	tweeters = []
 
